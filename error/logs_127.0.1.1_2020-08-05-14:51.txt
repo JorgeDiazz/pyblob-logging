@@ -1,0 +1,1 @@
+2020-08-05 14:51:42,453 - My Logger Name - ERROR: This is a ERROR message.
