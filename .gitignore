@@ -1,0 +1,8 @@
+/pyblob.logging.egg-info/
+/dist/
+build/
+.settings/
+.project
+.classpath
+*.pyc
+/__pycache__/
