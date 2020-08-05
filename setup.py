@@ -4,10 +4,10 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-     name='pyblob-logging',  
-     version='0.1',
-     scripts=['pyblob-logging'] ,
-     author="Jorge Andrés Díaz",
+     name='pyblob_logging',  
+     version='0.1.0	',
+     scripts=['pyblob_logging'] ,
+     author="Jorge Andres Diaz",
      author_email="jorgeandresdn1@gmail.com",
      description="A library to log into blob storage in Azure",
      long_description=long_description,

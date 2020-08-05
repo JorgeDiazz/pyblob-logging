@@ -1,12 +1,12 @@
 Metadata-Version: 2.1
 Name: pyblob-logging
-Version: 0.1
+Version: 0.1.0
 Summary: A library to log into blob storage in Azure
-Home-page: https://github.com/javatechy/dokr
-Author: Jorge Andrés Díaz
+Home-page: https://github.com/JorgeDiazz/pyblob-logging
+Author: Jorge Andres Diaz
 Author-email: jorgeandresdn1@gmail.com
 License: UNKNOWN
-Description: # PY-BLOB LOGGIN
+Description: # PY-BLOB LOGGING
         Integrate this library on your project to log into Azure Blob Storage.
         Enjoy it!
         

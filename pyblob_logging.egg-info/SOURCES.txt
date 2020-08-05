@@ -1,5 +1,5 @@
 README.md
-pyblob-logging
+pyblob_logging
 setup.py
 pyblob_logging.egg-info/PKG-INFO
 pyblob_logging.egg-info/SOURCES.txt
