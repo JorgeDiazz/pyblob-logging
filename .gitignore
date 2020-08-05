@@ -1,6 +1,8 @@
 /AzurePyblobLogging.egg-info/
 /dist/
 build/
+error/*
+debug/*
 .settings/
 .project
 .classpath
