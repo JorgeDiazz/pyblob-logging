@@ -6,16 +6,46 @@ class PyblobLogger:
 
     DEBUG_LEVEL = logging.DEBUG
     ERROR_LEVEL = logging.ERROR
+    LOGGING_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
-    logger = None
     ip_address = socket.gethostbyname(socket.gethostname())
 
     def __init__(self, logger_name, blob_description):
-        self.logger = logging.getLogger(logger_name)
+        self.setup_debug_logger(logger_name)
+        self.setup_error_logger(logger_name)
         self.blob_description = blob_description
 
-    def setup_logging(self, logs_file_name):
-        logging.basicConfig(filename=logs_file_name, format='%(asctime)s - %(name)s - %(levelname)s: %(message)s')
+    def get_debug_logs_name(self):
+        logs_file_name = 'logs_{}_{}.txt'.format(self.ip_address, time.strftime("%Y-%m-%d"))
+        return os.path.join('debug/', logs_file_name)
+
+    def get_error_logs_name(self):
+        logs_file_name = 'logs_{}_{}.txt'.format(self.ip_address, time.strftime("%Y-%m-%d-%H:%M"))
+        return os.path.join('error/', logs_file_name)
+
+    def setup_debug_logger(self, logger_name):
+        self.debug_logger = logging.getLogger('Debug-' + logger_name)
+        self.debug_logger.setLevel(self.DEBUG_LEVEL)
+
+        handler = logging.FileHandler(self.get_debug_logs_name())
+        handler.setLevel(self.DEBUG_LEVEL)
+
+        formatter = logging.Formatter(self.LOGGING_FORMAT)
+        handler.setFormatter(formatter)
+
+        self.debug_logger.addHandler(handler)
+
+    def setup_error_logger(self, logger_name):
+        self.error_logger = logging.getLogger('Error-' + logger_name)
+        self.error_logger.setLevel(self.ERROR_LEVEL)
+
+        handler = logging.FileHandler(self.get_error_logs_name())
+        handler.setLevel(self.ERROR_LEVEL)
+
+        formatter = logging.Formatter(self.LOGGING_FORMAT)
+        handler.setFormatter(formatter)
+
+        self.error_logger.addHandler(handler)
 
     def get_blob_client(self, logs_file_name):
         blob_connection_string = self.blob_description.connection_string
@@ -30,28 +60,14 @@ class PyblobLogger:
         with open("./" + logs_file_name, "rb") as logs:
             blob_client.upload_blob(logs, overwrite=True)
 
-    def get_debug_logs_name(self):
-        logs_file_name = 'logs_{}_{}.txt'.format(self.ip_address, time.strftime("%Y-%m-%d"))
-        return os.path.join('debug/', logs_file_name)
-
-    def get_error_logs_name(self):
-        logs_file_name = 'logs_{}_{}.txt'.format(self.ip_address, time.strftime("%Y-%m-%d-%H:%M"))
-        return os.path.join('error/', logs_file_name)
-
     def debug(self, message):
-        self.logger.setLevel(self.DEBUG_LEVEL)
+        self.debug_logger.debug(message)
 
         logs_file_name = self.get_debug_logs_name()
-
-        self.setup_logging(logs_file_name)
-        self.logger.debug(message)
         self.upload_logs_to_blob_storage(logs_file_name)
 
     def error(self, message):
-        self.logger.setLevel(self.ERROR_LEVEL)
+        self.error_logger.error(message)
 
         logs_file_name = self.get_error_logs_name()
-
-        self.setup_logging(logs_file_name)
-        self.logger.error(message)
         self.upload_logs_to_blob_storage(logs_file_name)
