@@ -46,16 +46,17 @@ class PyblobLogger:
 
         self.error_logger.addHandler(handler)
 
-    def get_blob_client(self, logs_file_name):
+    def get_blob_client(self, file_name):
         blob_connection_string = self.blob_description.connection_string
         container_name = self.blob_description.container_name
         project_path = self.blob_description.project_blob_path
 
         return BlobClient.from_connection_string(blob_connection_string, 
-            container_name=container_name, blob_name=os.path.join(project_path, logs_file_name))
+            container_name=container_name, blob_name=os.path.join(project_path, file_name))
 
     def upload_logs_to_blob_storage(self, logs_file_name):
-        blob_client = self.get_blob_client(logs_file_name)
+        last_slash_index = logs_file_name.rindex('/') + 1
+        blob_client = self.get_blob_client(logs_file_name[last_slash_index:])
         
         index = -1
         if 'debug/' in logs_file_name:
