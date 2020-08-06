@@ -1,2 +1,0 @@
-2020-08-05 16:23:02,440 - Error-My Logger Name - ERROR - This is an error log :(
-2020-08-05 16:23:22,503 - Error-My Logger Name - ERROR - This is an error log :(

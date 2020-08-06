@@ -1,2 +1,0 @@
-2020-08-05 16:23:23,048 - Debug-My Logger Name - DEBUG - This is a debud log :)
-2020-08-05 16:24:17,822 - Debug-My Logger Name - DEBUG - This is a debug log :)
