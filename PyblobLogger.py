@@ -7,6 +7,7 @@ class PyblobLogger:
     DEBUG_LEVEL = logging.DEBUG
     ERROR_LEVEL = logging.ERROR
     LOGGING_FORMAT = '%(asctime)s - %(name)s - %(message)s'
+    DIRECTORY_NAME_LENGTH = 5
 
     ip_address = socket.gethostbyname(socket.gethostname())
 
@@ -55,8 +56,10 @@ class PyblobLogger:
             container_name=container_name, blob_name=os.path.join(project_path, file_name))
 
     def upload_logs_to_blob_storage(self, logs_file_name):
-        last_slash_index = logs_file_name.rindex('/') + 1
-        blob_client = self.get_blob_client(logs_file_name[last_slash_index:])
+        penultimate_slash_index = logs_file_name.rindex('/') - self.DIRECTORY_NAME_LENGTH
+        print('PENULTIMATE', penultimate_slash_index)
+        print('>>>>>>>>>>>>>>>>>>>', logs_file_name[penultimate_slash_index:])
+        blob_client = self.get_blob_client(logs_file_name[penultimate_slash_index:])
         
         index = -1
         if 'debug/' in logs_file_name:
