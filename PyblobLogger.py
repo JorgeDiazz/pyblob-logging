@@ -57,8 +57,6 @@ class PyblobLogger:
 
     def upload_logs_to_blob_storage(self, logs_file_name):
         penultimate_slash_index = logs_file_name.rindex('/') - self.DIRECTORY_NAME_LENGTH
-        print('PENULTIMATE', penultimate_slash_index)
-        print('>>>>>>>>>>>>>>>>>>>', logs_file_name[penultimate_slash_index:])
         blob_client = self.get_blob_client(logs_file_name[penultimate_slash_index:])
         
         index = -1
