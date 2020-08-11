@@ -1,4 +1,4 @@
-import os, logging, time, socket
+import os, sys, logging, time, socket
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobClient
 
@@ -27,25 +27,35 @@ class PyblobLogger:
         self.debug_logger = logging.getLogger('DEBUG - ' + logger_name)
         self.debug_logger.setLevel(self.DEBUG_LEVEL)
 	 
-        handler = logging.FileHandler(self.get_debug_logs_name())
-        handler.setLevel(self.DEBUG_LEVEL)
+        file_handler = logging.FileHandler(self.get_debug_logs_name())
+        file_handler.setLevel(self.DEBUG_LEVEL)
 
         formatter = logging.Formatter(self.LOGGING_FORMAT)
-        handler.setFormatter(formatter)
+        file_handler.setFormatter(formatter)
 
-        self.debug_logger.addHandler(handler)
+        self.debug_logger.addHandler(file_handler)
+
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setFormatter(formatter)
+        
+        self.debug_logger.addHandler(console_handler)
 
     def setup_error_logger(self, logger_name):
         self.error_logger = logging.getLogger('ERROR - ' + logger_name)
         self.error_logger.setLevel(self.ERROR_LEVEL)
 
-        handler = logging.FileHandler(self.get_error_logs_name())
-        handler.setLevel(self.ERROR_LEVEL)
+        file_handler = logging.FileHandler(self.get_error_logs_name())
+        file_handler.setLevel(self.ERROR_LEVEL)
 
         formatter = logging.Formatter(self.LOGGING_FORMAT)
-        handler.setFormatter(formatter)
+        file_handler.setFormatter(formatter)
 
-        self.error_logger.addHandler(handler)
+        self.error_logger.addHandler(file_handler)
+
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setFormatter(formatter)
+        
+        self.error_logger.addHandler(console_handler)
 
     def get_blob_client(self, file_name):
         blob_connection_string = self.blob_description.connection_string
@@ -75,9 +85,9 @@ class PyblobLogger:
         logs_file_name = self.get_debug_logs_name()
         self.upload_logs_to_blob_storage(logs_file_name)
 
-    def error(self, message):
+    def error(self, message, exception):
         self.setup_error_logger(self.logger_name)
-        self.error_logger.error(message)
+        self.error_logger.error((message + ': {}').format(exception))
 
         logs_file_name = self.get_error_logs_name()
         self.upload_logs_to_blob_storage(logs_file_name)
