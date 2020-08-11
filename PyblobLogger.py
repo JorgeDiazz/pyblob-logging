@@ -14,6 +14,8 @@ class PyblobLogger:
     def __init__(self, logger_name, blob_description):
         self.logger_name = logger_name
         self.blob_description = blob_description
+        self.setup_debug_logger(self.logger_name)
+        self.setup_error_logger(self.logger_name)
 
     def get_debug_logs_name(self):
         logs_file_name = 'logs_{}_{}.txt'.format(self.ip_address, time.strftime("%Y-%m-%d"))
@@ -79,14 +81,12 @@ class PyblobLogger:
             blob_client.upload_blob(logs, overwrite=True)
 
     def debug(self, message):
-        self.setup_debug_logger(self.logger_name)
         self.debug_logger.debug(message)
 
         logs_file_name = self.get_debug_logs_name()
         self.upload_logs_to_blob_storage(logs_file_name)
 
     def error(self, message, exception):
-        self.setup_error_logger(self.logger_name)
         self.error_logger.error((message + ': {}').format(exception))
 
         logs_file_name = self.get_error_logs_name()
