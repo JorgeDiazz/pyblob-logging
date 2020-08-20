@@ -68,27 +68,30 @@ class PyblobLogger:
             container_name=container_name, blob_name=os.path.join(project_path, file_name))
 
     def upload_logs_to_blob_storage(self, logs_file_name):
-        penultimate_slash_index = logs_file_name.rindex('/') - self.DIRECTORY_NAME_LENGTH
-        blob_client = self.get_blob_client(logs_file_name[penultimate_slash_index:])
+        try:
+            penultimate_slash_index = logs_file_name.rindex('/') - self.DIRECTORY_NAME_LENGTH
+            blob_client = self.get_blob_client(logs_file_name[penultimate_slash_index:])
         
-        index = -1
-        if 'debug/' in logs_file_name:
-            index = logs_file_name.find('debug')
-        else: 
-            index = logs_file_name.find('error')	
+            index = -1
+            if 'debug/' in logs_file_name:
+                index = logs_file_name.find('debug')
+            else: 
+                index = logs_file_name.find('error')	
 
-        with open(logs_file_name[index:], "rb") as logs:
-            blob_client.upload_blob(logs, overwrite=True)
+            with open(logs_file_name[index:], "rb") as logs:
+                blob_client.upload_blob(logs, overwrite=True)
+        except Exception as ex:
+            print('An error has occurred:', ex)
 
     def debug(self, message):
-        self.setup_debug_logger(self.logger_name)
+#        self.setup_debug_logger(self.logger_name)
         self.debug_logger.debug(message)
 
         logs_file_name = self.get_debug_logs_name()
         self.upload_logs_to_blob_storage(logs_file_name)
 
     def error(self, message, exception):
-        self.setup_error_logger(self.logger_name)
+#        self.setup_error_logger(self.logger_name)
         self.error_logger.error((message + ': {}').format(exception))
 
         logs_file_name = self.get_error_logs_name()
