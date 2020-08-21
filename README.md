@@ -1,5 +1,5 @@
 # PYBLOB LOGGING
-Integrate this library on your project to log into Azure Blob Storage.
+Integrate this library on your project to log into both Terminal and Azure Blob Storage.
 
 ## Implementation
 
