@@ -82,6 +82,7 @@ class PyblobLogger:
                 blob_client.upload_blob(logs, overwrite=True)
         except Exception as ex:
             print('An error has occurred:', ex)
+            self.__init__(self.logger_name, self.blob_description)
 
     def debug(self, message):
 #        self.setup_debug_logger(self.logger_name)
