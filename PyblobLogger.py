@@ -73,7 +73,7 @@ class PyblobLogger:
             blob_client = self.get_blob_client(logs_file_name[penultimate_slash_index:])
         
             index = -1
-            if 'debug/' in logs_file_name:
+            if 'debug' in logs_file_name:
                 index = logs_file_name.find('debug')
             else: 
                 index = logs_file_name.find('error')	
