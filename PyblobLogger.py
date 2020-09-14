@@ -22,7 +22,7 @@ class PyblobLogger:
         return os.path.join(self.blob_description.project_local_path, 'debug/', logs_file_name)
 
     def get_error_logs_name(self):
-        logs_file_name = 'logs_{}_{}.txt'.format(self.ip_address, time.strftime("%Y-%m-%d-%H:%M"))
+        logs_file_name = 'logs_{}_{}.txt'.format(self.ip_address, time.strftime("%Y-%m-%d"))
         return os.path.join(self.blob_description.project_local_path, 'error/', logs_file_name)
 
     def setup_debug_logger(self, logger_name):
@@ -78,21 +78,22 @@ class PyblobLogger:
             else: 
                 index = logs_file_name.find('error')	
 
-            with open(logs_file_name[index:], "rb") as logs:
-                blob_client.upload_blob(logs, overwrite=True)
+            if index < 0:
+                print('Warning: {} file to logs not found'.format(logs_file_name))
+            else:
+                with open(logs_file_name[index:], "rb") as logs:
+                    blob_client.upload_blob(logs, overwrite=True)
         except Exception as ex:
             print('An error has occurred:', ex)
             self.__init__(self.logger_name, self.blob_description)
 
     def debug(self, message):
-#        self.setup_debug_logger(self.logger_name)
         self.debug_logger.debug(message)
 
         logs_file_name = self.get_debug_logs_name()
         self.upload_logs_to_blob_storage(logs_file_name)
 
     def error(self, message, exception):
-#        self.setup_error_logger(self.logger_name)
         self.error_logger.error((message + ': {}').format(exception))
 
         logs_file_name = self.get_error_logs_name()

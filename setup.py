@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
      name='AzurePyblobLogging',  
-     version='1.0.8',
+     version='1.1.0',
      author="Jorge Andres Diaz",
      author_email="jorgeandresdn1@gmail.com",
      description="A library to log into blob storage in Azure",
