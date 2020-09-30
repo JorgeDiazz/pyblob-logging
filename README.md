@@ -1,6 +1,11 @@
 # PYBLOB LOGGING
 Integrate this library on your project to log into both Terminal and Azure Blob Storage.
 
+## Installation
+### Latest version
+
+	pip install AzurePyblobLogging==1.1.0
+
 ## Implementation
 
 ### Importing libraries
@@ -15,7 +20,7 @@ Integrate this library on your project to log into both Terminal and Azure Blob 
 	blob_description = BlobDescription(storage_connection_str, container_name, path_inside_container, ROOT_DIR)
 
 	# Example:
-	# blob_description = BlobDescription('DefaultEndpointsProtocol=https;AccountName=xx;AccountKey=xx/xxx/xx;EndpointSuffix=xx','my-container-name', 'directory1/directory2/', ROOT_DIR) 
+	# blob_description = BlobDescription('DefaultEndpointsProtocol=https;AccountName=xx;AccountKey=xx/xxx/xx;EndpointSuffix=xx','my-container-name', 'app_name/ia_module/', ROOT_DIR) 
 
 	logger = PyblobLogging.get_blob_logger('My Logger Name', blob_description)
 
